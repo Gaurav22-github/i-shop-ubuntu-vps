@@ -9,6 +9,7 @@ import Link from 'next/link';
 export default async function Store({ searchParams }) {
 
     let range = null;
+    
     if (searchParams.min != null && searchParams.max != null) {
         range = {
             min: Number(searchParams.min),
