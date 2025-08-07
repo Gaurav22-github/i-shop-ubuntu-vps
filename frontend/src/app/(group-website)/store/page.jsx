@@ -22,7 +22,10 @@ export default async function Store({ searchParams }) {
     const viewMode = searchParams.view || 'grid'; // Default to grid view
     // console.log(color);
 
-    const products = await getProducts(null, range, color)
+    let products = await getProducts(null, range, color);
+    if (!Array.isArray(products)) {
+        products = [];
+    }
 
     return (
         <>
@@ -44,15 +47,12 @@ export default async function Store({ searchParams }) {
                 <div className='grid grid-cols-2 gap-4 mt-4'>
                     <ItemsHeader pro_length={products.length} />
                     {
-                        products?.length > 0
+                        products.length > 0
                             ?
-                            products?.map(
-                                (prod) => {
-                                    
-                                    return (
-                                        <ProductCard key={prod._id} {...prod} viewMode={viewMode} />
-                                    )
-                                }
+                            products.map(
+                                (prod) => (
+                                    <ProductCard key={prod._id} {...prod} viewMode={viewMode} />
+                                )
                             )
                             :
                             <span className='text-4xl text-gray-500 col-span-3 text-center mt-4'>No Products</span>
